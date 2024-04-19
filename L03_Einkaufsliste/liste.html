@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShoppingList</title>
+    <script src="liste.js"></script>
+    <link rel="stylesheet" href="liste.css">
+</head>
+<body>
+
+    <h1>Shopping List</h1>
+    <p id="info">Add all the products you need to buy on your next shopping trip.</p>
+
+    <div id="BigDiv">
+        <table>
+            <tr>
+                <th>Product</th>
+                <th>Amount</th>
+                <th>Date of the last buy</th>
+                <th>Comment</th>
+                <th>Buy</th>
+                <th>Bought</th>
+            </tr>
+            <tr>
+                <td>
+                    <input type="text" name="Product" placeholder="type here" required id="product" />
+                    <hr />
+                </td>
+                <td>
+                    <input type="number" name="Amount" step="1" min="0" max="10" value="0" id="amount" />
+                    <hr />
+                </td>
+                <td><input type="date" name="Date" id="date" /></td>
+                <td><textarea name="comment" rows="1" placeholder="long text here" id="comments"></textarea></td>
+                <td><input type="checkbox" name="Buy" value="check1" id="check1" /></td>
+                <td><input type="checkbox" name="Bought" value="check2" id="check2" /></td>
+            </tr>
+        </table>
+  
+  </body>
+  
+  </html>
