@@ -15,7 +15,9 @@ var art;
         for (let i = 0; i < 4; i++) {
             for (let z = 0; z < 3; z++) {
                 let x = Math.random() * 200;
-                let y = (Math.random() * i * 50) * z;
+                let y = (i + 10) * z;
+                let width = Math.random() * 25 + 5;
+                let height = Math.random() * 25 + 5;
                 switch (i) {
                     case 0:
                         strokeColor = "#686461";
@@ -45,22 +47,22 @@ var art;
                     default:
                         fillColor = "#763626";
                 }
-                drawRectangle1(x, y, strokeColor, fillColor);
-                drawRectangle2(x, y, strokeColor, fillColor);
+                drawRectangle1(x, y, width, height, strokeColor, fillColor);
+                drawRectangle2(x, y, width, height, strokeColor, fillColor);
             }
         }
     }
-    function drawRectangle1(_x, _y, _strokeColor, _fillColor) {
+    function drawRectangle1(_x, _y, _width, _height, _strokeColor, _fillColor) {
         crc2.fillStyle = _fillColor;
         crc2.strokeStyle = _strokeColor;
-        crc2.strokeRect(_x, _y, 30, 30);
-        crc2.fillRect(_x, _y, 30, 30);
+        crc2.strokeRect(_x, _y, _width, _height);
+        crc2.fillRect(_x, _y, _width, _height);
     }
-    function drawRectangle2(_x, _y, _strokeColor, _fillColor) {
+    function drawRectangle2(_x, _y, _width, _height, _strokeColor, _fillColor) {
         crc2.fillStyle = _fillColor;
         crc2.strokeStyle = _strokeColor;
-        crc2.strokeRect(_x, _y, 10, 10);
-        crc2.fillRect(_x, _y, 10, 10);
+        crc2.strokeRect(_x, _y, _width, _height);
+        crc2.fillRect(_x, _y, _width, _height);
     }
     function drawBackground() {
         let gradient = crc2.createLinearGradient(0, 0, 0, crc2.canvas.height);

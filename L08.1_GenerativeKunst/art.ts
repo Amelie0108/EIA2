@@ -20,7 +20,9 @@ namespace art {
         for (let i: number = 0; i < 4; i++) {
             for (let z: number = 0; z < 3; z++) {
                 let x: number = Math.random() * 200;
-                let y: number = (Math.random() * i * 50) * z;
+                let y: number = (i + 10) * z;
+                let width: number = Math.random() * 25 + 5;
+                let height: number = Math.random() * 25 + 5;
                 
 
                 switch (i) {
@@ -55,27 +57,27 @@ namespace art {
                 }
 
 
-                drawRectangle1(x, y, strokeColor, fillColor);
-                drawRectangle2(x, y, strokeColor, fillColor);
+                drawRectangle1(x, y, width, height, strokeColor, fillColor);
+                drawRectangle2(x, y, width, height, strokeColor, fillColor);
                 
             }
         }
     }
 
-    function drawRectangle1(_x: number, _y: number, _strokeColor: string, _fillColor: string): void {
+    function drawRectangle1(_x: number, _y: number, _width: number, _height: number, _strokeColor: string, _fillColor: string): void {
         crc2.fillStyle = _fillColor;
         crc2.strokeStyle = _strokeColor;
 
-        crc2.strokeRect(_x, _y, 30, 30);
-        crc2.fillRect(_x, _y, 30, 30);
+        crc2.strokeRect(_x, _y, _width, _height);
+        crc2.fillRect(_x, _y, _width, _height);
     }
 
-    function drawRectangle2(_x: number, _y: number, _strokeColor: string, _fillColor: string): void {
+    function drawRectangle2(_x: number, _y: number, _width: number, _height: number, _strokeColor: string, _fillColor: string): void {
         crc2.fillStyle = _fillColor;
         crc2.strokeStyle = _strokeColor;
 
-        crc2.strokeRect(_x, _y, 10, 10);
-        crc2.fillRect(_x, _y, 10, 10);
+        crc2.strokeRect(_x, _y, _width, _height);
+        crc2.fillRect(_x, _y, _width, _height);
     }
 
     function drawBackground() {
