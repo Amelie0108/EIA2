@@ -2,11 +2,7 @@ namespace lake {
     window.addEventListener("load", handleLoad);
     export let crc2: CanvasRenderingContext2D;
 
-    let clouds: Cloud[] = [];
-    let trees: Tree[] = [];
-    let ducks: Duck[] = [];
-    let bees: Bee[] = [];
-    let houses: House[] = [];
+    let moveables: Moveable[] = [];
     
     
     function handleLoad(_event: Event): void {
@@ -16,67 +12,49 @@ namespace lake {
         crc2 = <CanvasRenderingContext2D>canvas.getContext("2d");
 
     
-        for (let i: number = 0; i < 10; i++) {
-            let cloud: Cloud = new Cloud(Math.random() * 500, Math.random() * 200);
-            clouds.push(cloud);
+        for (let i: number = 0; i < 6; i++) {
+            let cloud: Cloud = new Cloud(Math.random() * 500, Math.random() * 200, "white");
+            moveables.push(cloud);
         }
 
-        let tree: Tree = new Tree(100, 350,);
-        tree.draw();
-        trees.push(tree);
+        let duck: Duck = new Duck(10, 430, "white");
+        duck.draw();
+        moveables.push(duck);
 
-        let house1: House = new House(160, 250, 90, 100, "lightgrey");
-        let house2: House = new House(270, 200, 80, 100, "beige");
-        houses.push(house1, house2);
-        
+        let duck2: Duck = new Duck(200, 550, "#A78B71");
+        duck.draw();
+        moveables.push(duck2);
+
+        let bee: Bee = new Bee(100, 600, "yellow");
+        bee.draw();
+        moveables.push(bee);
+
+        let bee2: Bee = new Bee(0, 300, "yellow");
+        bee.draw();
+        moveables.push(bee2);
 
         drawBackground();
         setInterval(animate, 40);
 
-        let duck: Duck = new Duck(10, 430, "white");
-        duck.draw();
-        ducks.push(duck);
+        let tree: Tree = new Tree( 100, 350,"green");
+        tree.draw();
+        moveables.push(tree);
 
-        let duck2: Duck = new Duck(200, 550, "#A78B71");
-        duck.draw();
-        ducks.push(duck2);
-
-        let bee: Bee = new Bee(100, 600, "yellow");
-        bee.draw();
-        bees.push(bee);
-
-        let bee2: Bee = new Bee(0, 300, "yellow");
-        bee.draw();
-        bees.push(bee2);
+        let house1: House = new House(160, 250, 90, 100, "lightgrey");
+        let house2: House = new House(270,200,80,100, "beige");
+        moveables.push(house1, house2);
     }
 
     function animate(): void {
         drawBackground();
         drawSun({ x: 70, y: 60 });
         drawFlower();
-
-        for (let house of houses) {
-            house.draw();
+        
+        for (let i: number = 0; i < moveables.length; i++) {
+            moveables[i].move();
+            moveables[i].draw();
         }
-
-        for (let i: number = 0; i < 4; i++) {
-            clouds[i].move();
-            clouds[i].draw();
         }
-        for (let i: number = 0; i < 1; i++) {
-            trees[i].draw();
-        }
-       
-        ducks[0].draw();
-        ducks[1].draw();
-        ducks[0].move();
-        ducks[1].move();
-
-        bees[0].draw();
-        bees[0].move();
-        bees[1].draw();
-        bees[1].move();
-    }
 
     function drawBackground(): void {
 
@@ -94,6 +72,7 @@ namespace lake {
         drawPond();
 
     }
+    
 
     function drawHills(): void {
 

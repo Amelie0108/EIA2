@@ -2,11 +2,7 @@
 var lake;
 (function (lake) {
     window.addEventListener("load", handleLoad);
-    let clouds = [];
-    let trees = [];
-    let ducks = [];
-    let bees = [];
-    let houses = [];
+    let moveables = [];
     function handleLoad(_event) {
         let canvas = document.querySelector("canvas");
         if (!canvas)
@@ -14,28 +10,28 @@ var lake;
         lake.crc2 = canvas.getContext("2d");
         for (let i = 0; i < 10; i++) {
             let cloud = new lake.Cloud(Math.random() * 500, Math.random() * 200);
-            clouds.push(cloud);
+            moveables.push(cloud);
         }
         let tree = new lake.Tree(100, 350);
         tree.draw();
-        trees.push(tree);
+        moveables.push(tree);
         let house1 = new lake.House(160, 250, 90, 100, "lightgrey");
         let house2 = new lake.House(270, 200, 80, 100, "beige");
-        houses.push(house1, house2);
+        moveables.push(house1, house2);
         drawBackground();
         setInterval(animate, 40);
         let duck = new lake.Duck(10, 430, "white");
         duck.draw();
-        ducks.push(duck);
+        moveables.push(duck);
         let duck2 = new lake.Duck(200, 550, "#A78B71");
         duck.draw();
-        ducks.push(duck2);
+        moveables.push(duck2);
         let bee = new lake.Bee(100, 600, "yellow");
         bee.draw();
-        bees.push(bee);
+        moveables.push(bee);
         let bee2 = new lake.Bee(0, 300, "yellow");
         bee.draw();
-        bees.push(bee2);
+        moveables.push(bee2);
     }
     function animate() {
         drawBackground();

@@ -1,15 +1,13 @@
 namespace lake {
 
-     export class Tree{
-        x:number;
-        y:number;
+     export class Tree extends Moveable {
     
-        constructor (_x:number, _y:number){
-            this.x = _x;
-            this.y = _y;
+        constructor (_x:number, _y:number, _color: string){
+            super (_x, _y, _color)
         }
 
-        draw() {
+        draw(): void {
+            
             crc2.save();
             crc2.translate(this.x, this.y);
 
@@ -18,7 +16,7 @@ namespace lake {
             crc2.fillRect(-10, 40, 20, -70);
 
            
-            crc2.fillStyle = "#14471E";
+            crc2.fillStyle = this.color;
             this.drawFoliage(0, -40, 35);
             this.drawFoliage(-20, -20, 30);
             this.drawFoliage(20, -20, 30);

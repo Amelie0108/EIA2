@@ -1,18 +1,16 @@
 "use strict";
 var lake;
 (function (lake) {
-    class Cloud {
-        x;
-        y;
-        constructor(_x, _y) {
-            this.x = _x;
-            this.y = _y;
+    class Cloud extends lake.Moveable {
+        constructor(_x, _y, _color) {
+            super(_x, _y, _color);
         }
         move() {
             this.x += 1;
             if (this.x > lake.crc2.canvas.width) {
                 this.x = -100;
             }
+            this.draw();
         }
         draw() {
             lake.crc2.save();

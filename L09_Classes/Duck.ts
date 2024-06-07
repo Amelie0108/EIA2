@@ -1,23 +1,11 @@
 namespace lake {
 
-    export class Duck {
-        x: number;
-        y: number;
-        color: string;
-        
-        constructor(_x: number, _y: number, _color: string) {
-            this.x = _x;
-            this.y = _y;
-            this.color = _color
+    export class Duck extends Moveable {
 
-            this.draw();
+        constructor(_x: number, _y: number, _color: string) {
+            super(_x,_y,_color)
         }
-        move(){
-            this.x += 1
-            if (this.x > crc2.canvas.width) {
-                this.x = 0;
-            }
-        }
+
 
         draw(): void{
             crc2.save();
@@ -48,6 +36,7 @@ namespace lake {
             crc2.beginPath();
             crc2.arc(-20, -22, 2, 0, 2 * Math.PI);
             crc2.fill();
+            crc2.closePath();
 
             crc2.restore();
         }

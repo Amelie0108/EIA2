@@ -1,18 +1,19 @@
 namespace lake { 
 
-    export class House {
+    export class House extends Moveable {
         positionX: number;
         positionY: number;
         width: number;
         height: number;
         color: string;
 
-        constructor(_positionX: number, _positionY: number, _width: number, _height: number, _color: string) {
-            this.positionX = _positionX;
-            this.positionY = _positionY;
+        constructor(_x: number, _y: number, _width: number, _height: number, _color: string) {
+            super (_x, _y, _color,)  
+            this.positionX = _x;
+            this.positionY = _y;
             this.width = _width;
             this.height = _height;
-            this.color = _color;
+            this.color = _color; 
         }
 
         draw(): void {

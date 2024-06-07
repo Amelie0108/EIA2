@@ -1,20 +1,9 @@
 namespace lake {
 
-    export class Cloud {
-        x: number;
-        y: number;
+     export class Cloud extends Moveable {
 
-        constructor(_x: number, _y: number) {
-            this.x = _x;
-            this.y = _y;
-        }
-
-        move() {
-            this.x += 1
-            if (this.x > crc2.canvas.width) {
-                this.x = -100;
-            }
-
+        constructor(_x: number, _y: number, _color: string) {
+            super(_x,_y,_color)
         }
 
         draw(): void {
