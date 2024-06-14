@@ -8,53 +8,39 @@ var lake;
         if (!canvas)
             return;
         lake.crc2 = canvas.getContext("2d");
-        for (let i = 0; i < 10; i++) {
-            let cloud = new lake.Cloud(Math.random() * 500, Math.random() * 200);
+        for (let i = 0; i < 6; i++) {
+            let cloud = new lake.Cloud(Math.random() * 500, Math.random() * 200, "white");
             moveables.push(cloud);
         }
-        let tree = new lake.Tree(100, 350);
-        tree.draw();
-        moveables.push(tree);
+        let duck = new lake.Duck(280, 430, "white");
+        duck.draw();
+        moveables.push(duck);
+        let duck2 = new lake.Duck(350, 550, "#A78B71");
+        duck.draw();
+        moveables.push(duck2);
+        let bee = new lake.Bee(350, 500, "yellow");
+        bee.draw();
+        moveables.push(bee);
+        let bee2 = new lake.Bee(100, 300, "yellow");
+        bee.draw();
+        moveables.push(bee2);
+        drawBackground();
+        setInterval(animate, 40);
         let house1 = new lake.House(160, 250, 90, 100, "lightgrey");
         let house2 = new lake.House(270, 200, 80, 100, "beige");
         moveables.push(house1, house2);
-        drawBackground();
-        setInterval(animate, 40);
-        let duck = new lake.Duck(10, 430, "white");
-        duck.draw();
-        moveables.push(duck);
-        let duck2 = new lake.Duck(200, 550, "#A78B71");
-        duck.draw();
-        moveables.push(duck2);
-        let bee = new lake.Bee(100, 600, "yellow");
-        bee.draw();
-        moveables.push(bee);
-        let bee2 = new lake.Bee(0, 300, "yellow");
-        bee.draw();
-        moveables.push(bee2);
+        canvas.addEventListener("click", handleCanvasClick);
+        window.addEventListener("keydown", handleKeyDown);
     }
     function animate() {
         drawBackground();
         drawSun({ x: 70, y: 60 });
         drawFlower();
-        for (let house of houses) {
-            house.draw();
+        drawTree();
+        for (let i = 0; i < moveables.length; i++) {
+            moveables[i].move();
+            moveables[i].draw();
         }
-        for (let i = 0; i < 4; i++) {
-            clouds[i].move();
-            clouds[i].draw();
-        }
-        for (let i = 0; i < 1; i++) {
-            trees[i].draw();
-        }
-        ducks[0].draw();
-        ducks[1].draw();
-        ducks[0].move();
-        ducks[1].move();
-        bees[0].draw();
-        bees[0].move();
-        bees[1].draw();
-        bees[1].move();
     }
     function drawBackground() {
         let gradient = lake.crc2.createLinearGradient(0, 0, 0, lake.crc2.canvas.height);
@@ -135,12 +121,13 @@ var lake;
         lake.crc2.fill();
         lake.crc2.restore();
     }
+    let flowerColor = "white";
     function drawFlower() {
         lake.crc2.save();
         lake.crc2.translate(300, 390);
         lake.crc2.fillStyle = "green";
         lake.crc2.fillRect(0, 0, 2, -20);
-        lake.crc2.fillStyle = "white";
+        lake.crc2.fillStyle = flowerColor;
         for (let i = 0; i < 5; i++) {
             lake.crc2.beginPath();
             lake.crc2.ellipse(0, -20, 5, 15, i * (Math.PI / 2.5), 0, 2 * Math.PI);
@@ -151,6 +138,65 @@ var lake;
         lake.crc2.arc(0, -20, 5, 0, 2 * Math.PI);
         lake.crc2.fill();
         lake.crc2.restore();
+    }
+    function drawTree() {
+        lake.crc2.save();
+        lake.crc2.translate(80, 380);
+        lake.crc2.fillStyle = "brown";
+        lake.crc2.fillRect(-5, 0, 10, -50);
+        lake.crc2.fillStyle = "green";
+        let ellipses = [
+            { x: 0, y: -60, rx: 30, ry: 20 },
+            { x: -20, y: -50, rx: 30, ry: 25 },
+            { x: 20, y: -50, rx: 25, ry: 20 },
+            { x: 0, y: -80, rx: 35, ry: 25 },
+            { x: -15, y: -70, rx: 25, ry: 20 },
+            { x: 15, y: -70, rx: 30, ry: 25 }
+        ];
+        for (let ellipse of ellipses) {
+            lake.crc2.beginPath();
+            lake.crc2.ellipse(ellipse.x, ellipse.y, ellipse.rx, ellipse.ry, 0, 0, 2 * Math.PI);
+            lake.crc2.fill();
+        }
+        lake.crc2.restore();
+    }
+    function handleCanvasClick(event) {
+        let canvasRect = lake.crc2.canvas.getBoundingClientRect();
+        let x = event.clientX - canvasRect.left;
+        let y = event.clientY - canvasRect.top;
+        for (let moveable of moveables) {
+            if (moveable instanceof lake.House) {
+                if (x >= moveable.positionX &&
+                    x <= moveable.positionX + moveable.width &&
+                    y >= moveable.positionY &&
+                    y <= moveable.positionY + moveable.height) {
+                    moveable.color = moveable.color === "#217074" ? "#EDC5AB" : "#217074";
+                    drawBackground();
+                    for (let m of moveables) {
+                        m.draw();
+                    }
+                }
+            }
+            else if (moveable instanceof lake.Duck) {
+                if (x >= moveable.x - 15 && x <= moveable.x + 15 && y >= moveable.y - 30 && y <= moveable.y + 30) {
+                    moveable.x = Math.random() * (lake.crc2.canvas.width - 60) + 30;
+                    moveable.y = 400 + Math.random() * 100;
+                    drawBackground();
+                    for (let m of moveables) {
+                        m.draw();
+                    }
+                }
+            }
+        }
+    }
+    function handleKeyDown(event) {
+        if (event.code === "Space") {
+            flowerColor = flowerColor === "#B9848C" ? "pink" : "#B9848C";
+            drawBackground();
+            for (let m of moveables) {
+                m.draw();
+            }
+        }
     }
 })(lake || (lake = {}));
 //# sourceMappingURL=Main.js.map

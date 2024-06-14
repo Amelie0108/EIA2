@@ -1,11 +1,11 @@
 namespace lake { 
 
     export class House extends Moveable {
-        positionX: number;
-        positionY: number;
-        width: number;
-        height: number;
-        color: string;
+        public positionX: number;
+        public positionY: number;
+        public width: number;
+        public height: number;
+        public color: string;
 
         constructor(_x: number, _y: number, _width: number, _height: number, _color: string) {
             super (_x, _y, _color,)  
@@ -16,7 +16,7 @@ namespace lake {
             this.color = _color; 
         }
 
-        draw(): void {
+        public draw(): void {
             crc2.save();
             crc2.translate(this.positionX, this.positionY);
 
@@ -42,17 +42,17 @@ namespace lake {
             crc2.restore();
         }
 
-        drawWindow(x: number, y: number): void {
+        public drawWindow(x: number, y: number): void {
             crc2.fillStyle = "lightblue";
             crc2.fillRect(x, y, this.width * 0.2, this.height * 0.3);
         }
 
-        drawDoor(x: number, y: number): void {
+        public drawDoor(x: number, y: number): void {
             crc2.fillStyle = "brown";
             crc2.fillRect(x, y, this.width * 0.2, this.height * 0.4);
         }
 
-        drawChimney(x: number, y: number): void {
+        public drawChimney(x: number, y: number): void {
             crc2.fillStyle = "gray";
             crc2.fillRect(x, y, this.width * 0.1, this.height * 0.3);
         }

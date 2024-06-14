@@ -7,7 +7,7 @@ namespace lake {
         }
 
 
-        draw(): void{
+        public draw(): void{
             crc2.save();
             crc2.beginPath();
             crc2.translate(this.x, this.y);

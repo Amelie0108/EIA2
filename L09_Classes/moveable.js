@@ -13,13 +13,12 @@ var lake;
             this.move();
         }
         move() {
-            this.x += 1;
+            this.x -= 1;
             if (this.x > lake.crc2.canvas.width) {
                 this.x = -100;
             }
         }
-        draw() {
-        }
+        draw() { }
     }
     lake.Moveable = Moveable;
 })(lake || (lake = {}));

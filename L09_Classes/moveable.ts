@@ -1,9 +1,9 @@
 namespace lake {
 
     export class Moveable {
-        x: number;
-        y: number;
-        color: string;
+        public x: number;
+        public y: number;
+        public color: string;
 
         constructor(_x:number, _y:number, _color: string) {
             this.x = _x;
@@ -14,13 +14,13 @@ namespace lake {
             this.move();
         }
         
-        move(){
-            this.x += 1
+        public move(){
+            this.x -= 1
             if (this.x > crc2.canvas.width) {
                 this.x = -100;
             }
         }
 
-        draw() {}
+        public draw(): void {}
     }
 }

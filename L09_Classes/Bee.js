@@ -6,7 +6,7 @@ var lake;
             super(_x, _y, _color);
         }
         move() {
-            this.x += 1;
+            this.x -= 1;
             this.y -= 1;
             if (this.x > lake.crc2.canvas.width) {
                 this.x = 0;
@@ -41,6 +41,7 @@ var lake;
             lake.crc2.beginPath();
             lake.crc2.ellipse(0, -10, 15, 8, -Math.PI / 4, 0, 2 * Math.PI);
             lake.crc2.fill();
+            lake.crc2.closePath();
             lake.crc2.restore();
         }
     }

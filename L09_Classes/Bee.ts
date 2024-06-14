@@ -6,15 +6,15 @@ namespace lake {
             super(_x,_y,_color)
         }
 
-        move() {
-            this.x += 1
+        public move() {
+            this.x -= 1
             this.y -= 1
             if (this.x > crc2.canvas.width) {
                 this.x = 0;
             }
         }
 
-        draw(): void {
+        public draw(): void {
             crc2.save();
             crc2.beginPath();
             crc2.translate(this.x, this.y);

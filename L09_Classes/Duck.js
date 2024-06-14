@@ -5,12 +5,6 @@ var lake;
         constructor(_x, _y, _color) {
             super(_x, _y, _color);
         }
-        move() {
-            this.x += 1;
-            if (this.x > lake.crc2.canvas.width) {
-                this.x = 0;
-            }
-        }
         draw() {
             lake.crc2.save();
             lake.crc2.beginPath();
@@ -34,6 +28,7 @@ var lake;
             lake.crc2.beginPath();
             lake.crc2.arc(-20, -22, 2, 0, 2 * Math.PI);
             lake.crc2.fill();
+            lake.crc2.closePath();
             lake.crc2.restore();
         }
     }

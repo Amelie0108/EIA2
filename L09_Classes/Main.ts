@@ -17,44 +17,46 @@ namespace lake {
             moveables.push(cloud);
         }
 
-        let duck: Duck = new Duck(10, 430, "white");
+        let duck: Duck = new Duck(280, 430, "white");
         duck.draw();
         moveables.push(duck);
 
-        let duck2: Duck = new Duck(200, 550, "#A78B71");
+        let duck2: Duck = new Duck(350, 550, "#A78B71");
         duck.draw();
         moveables.push(duck2);
 
-        let bee: Bee = new Bee(100, 600, "yellow");
+        let bee: Bee = new Bee(350, 500, "yellow");
         bee.draw();
         moveables.push(bee);
 
-        let bee2: Bee = new Bee(0, 300, "yellow");
+        let bee2: Bee = new Bee(100, 300, "yellow");
         bee.draw();
         moveables.push(bee2);
 
         drawBackground();
         setInterval(animate, 40);
 
-        let tree: Tree = new Tree( 100, 350,"green");
-        tree.draw();
-        moveables.push(tree);
-
         let house1: House = new House(160, 250, 90, 100, "lightgrey");
         let house2: House = new House(270,200,80,100, "beige");
         moveables.push(house1, house2);
+
+        canvas.addEventListener("click", handleCanvasClick);
+        window.addEventListener("keydown", handleKeyDown);
     }
 
     function animate(): void {
         drawBackground();
         drawSun({ x: 70, y: 60 });
         drawFlower();
+        drawTree ();
         
         for (let i: number = 0; i < moveables.length; i++) {
             moveables[i].move();
             moveables[i].draw();
         }
         }
+
+   
 
     function drawBackground(): void {
 
@@ -160,6 +162,8 @@ namespace lake {
         crc2.restore();
     }
 
+    let flowerColor: string = "white";
+
     function drawFlower(): void {
         crc2.save();
         crc2.translate(300, 390);
@@ -167,7 +171,7 @@ namespace lake {
         crc2.fillStyle = "green";
         crc2.fillRect(0, 0, 2, -20);
 
-        crc2.fillStyle = "white";
+        crc2.fillStyle = flowerColor;
         for (let i = 0; i < 5; i++) {
             crc2.beginPath();
             crc2.ellipse(0, -20, 5, 15, i * (Math.PI / 2.5), 0, 2 * Math.PI);
@@ -181,4 +185,79 @@ namespace lake {
 
         crc2.restore();
     }
+
+
+    function drawTree(): void {
+        crc2.save();
+        crc2.translate(80, 380);
+    
+        crc2.fillStyle = "brown";
+        crc2.fillRect(-5, 0, 10, -50);
+    
+        crc2.fillStyle = "green";
+        let ellipses = [
+            { x: 0, y: -60, rx: 30, ry: 20 },
+            { x: -20, y: -50, rx: 30, ry: 25 },
+            { x: 20, y: -50, rx: 25, ry: 20 },
+            { x: 0, y: -80, rx: 35, ry: 25 },
+            { x: -15, y: -70, rx: 25, ry: 20 },
+            { x: 15, y: -70, rx: 30, ry: 25 }
+        ];
+    
+        for (let ellipse of ellipses) {
+            crc2.beginPath();
+            crc2.ellipse(ellipse.x, ellipse.y, ellipse.rx, ellipse.ry, 0, 0, 2 * Math.PI);
+            crc2.fill();
+        }
+    
+        crc2.restore();
+        }
+
+        function handleCanvasClick(event: MouseEvent): void {
+            let canvasRect = crc2.canvas.getBoundingClientRect();
+            let x = event.clientX - canvasRect.left;
+            let y = event.clientY - canvasRect.top;
+        
+            for (let moveable of moveables) {
+                if (moveable instanceof House) {
+                    if (
+                        x >= moveable.positionX &&
+                        x <= moveable.positionX + moveable.width &&
+                        y >= moveable.positionY &&
+                        y <= moveable.positionY + moveable.height) 
+                    {
+                        moveable.color = moveable.color === "#217074" ? "#EDC5AB" : "#217074";
+                        
+                        drawBackground();
+                        for (let m of moveables) {
+                            m.draw();
+                        }
+                    }
+                }
+
+                else if (moveable instanceof Duck) {
+                    if (x >= moveable.x - 15 && x <= moveable.x + 15 && y >= moveable.y - 30 && y <= moveable.y + 30) {
+                        moveable.x = Math.random() * (crc2.canvas.width - 60) + 30;
+                        moveable.y = 400 + Math.random() * 100;
+                        drawBackground();
+                        for (let m of moveables) {
+                            m.draw();
+                        }
+                    }
+                }
+            }
+        }
+
+        function handleKeyDown(event: KeyboardEvent): void {
+            if (event.code === "Space") {
+                flowerColor = flowerColor === "#B9848C" ? "pink" : "#B9848C";
+                    drawBackground();
+            for (let m of moveables) {
+                        m.draw();
+                    }
+                }
+            }
 }
+
+        
+    

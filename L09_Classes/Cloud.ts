@@ -6,7 +6,7 @@ namespace lake {
             super(_x,_y,_color)
         }
 
-        draw(): void {
+        public draw(): void {
             crc2.save();
             crc2.translate(this.x, this.y)
 
@@ -20,7 +20,7 @@ namespace lake {
 
         }
 
-        drawCloudPart(x: number, y: number, radius: number): void {
+        public drawCloudPart(x: number, y: number, radius: number): void {
             crc2.beginPath();
             crc2.arc(x, y, radius, 0, 2 * Math.PI);
             crc2.fill();

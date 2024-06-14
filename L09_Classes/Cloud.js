@@ -5,13 +5,6 @@ var lake;
         constructor(_x, _y, _color) {
             super(_x, _y, _color);
         }
-        move() {
-            this.x += 1;
-            if (this.x > lake.crc2.canvas.width) {
-                this.x = -100;
-            }
-            this.draw();
-        }
         draw() {
             lake.crc2.save();
             lake.crc2.translate(this.x, this.y);

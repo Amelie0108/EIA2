@@ -1,15 +1,16 @@
 "use strict";
 var lake;
 (function (lake) {
-    class House {
+    class House extends lake.Moveable {
         positionX;
         positionY;
         width;
         height;
         color;
-        constructor(_positionX, _positionY, _width, _height, _color) {
-            this.positionX = _positionX;
-            this.positionY = _positionY;
+        constructor(_x, _y, _width, _height, _color) {
+            super(_x, _y, _color);
+            this.positionX = _x;
+            this.positionY = _y;
             this.width = _width;
             this.height = _height;
             this.color = _color;
