@@ -3,6 +3,7 @@ namespace lake {
     export let crc2: CanvasRenderingContext2D;
 
     let moveables: Moveable[] = [];
+    let breadcrumbs: Vector[] = [];
     
     
     function handleLoad(_event: Event): void {
@@ -18,19 +19,15 @@ namespace lake {
         }
 
         let duck: Duck = new Duck(280, 430, "white");
-        duck.draw();
         moveables.push(duck);
 
         let duck2: Duck = new Duck(350, 550, "#A78B71");
-        duck.draw();
         moveables.push(duck2);
 
         let bee: Bee = new Bee(350, 500, "yellow");
-        bee.draw();
         moveables.push(bee);
 
         let bee2: Bee = new Bee(100, 300, "yellow");
-        bee.draw();
         moveables.push(bee2);
 
         drawBackground();
@@ -54,6 +51,10 @@ namespace lake {
             moveables[i].move();
             moveables[i].draw();
         }
+
+        drawBreadcrumbs();
+        moveDucksToBreadcrumbs();
+
         }
 
    
@@ -217,21 +218,19 @@ namespace lake {
             let canvasRect = crc2.canvas.getBoundingClientRect();
             let x = event.clientX - canvasRect.left;
             let y = event.clientY - canvasRect.top;
+
+            let clickedOnDuck = false;
+            let clickedOnHouse = false;
         
             for (let moveable of moveables) {
                 if (moveable instanceof House) {
-                    if (
-                        x >= moveable.positionX &&
+                    if (x >= moveable.positionX &&
                         x <= moveable.positionX + moveable.width &&
                         y >= moveable.positionY &&
                         y <= moveable.positionY + moveable.height) 
                     {
                         moveable.color = moveable.color === "#217074" ? "#EDC5AB" : "#217074";
-                        
-                        drawBackground();
-                        for (let m of moveables) {
-                            m.draw();
-                        }
+                        clickedOnHouse = true;
                     }
                 }
 
@@ -239,12 +238,20 @@ namespace lake {
                     if (x >= moveable.x - 15 && x <= moveable.x + 15 && y >= moveable.y - 30 && y <= moveable.y + 30) {
                         moveable.x = Math.random() * (crc2.canvas.width - 60) + 30;
                         moveable.y = 400 + Math.random() * 100;
-                        drawBackground();
-                        for (let m of moveables) {
-                            m.draw();
-                        }
-                    }
+                        clickedOnDuck = true;
+                    }  
                 }
+            }
+
+            if (!clickedOnDuck && !clickedOnHouse) {
+                breadcrumbs.push({ x, y });
+            }
+    
+            drawBackground();
+            drawBreadcrumbs();
+
+            for (let m of moveables) {
+                m.draw();
             }
         }
 
@@ -257,7 +264,31 @@ namespace lake {
                     }
                 }
             }
-}
+
+            function drawBreadcrumbs(): void {
+                for (let breadcrumb of breadcrumbs) {
+                    crc2.save();
+                    crc2.fillStyle = "#DCC1A3";
+                    crc2.beginPath();
+                    crc2.arc(breadcrumb.x, breadcrumb.y, 5, 0, 2 * Math.PI);
+                    crc2.fill();
+                    crc2.restore();
+                }
+            }
+        
+            function moveDucksToBreadcrumbs(): void {
+                for (let duck of moveables) {
+                    if (duck instanceof Duck) {
+                        if (breadcrumbs.length > 0) {
+                            let breadcrumb = breadcrumbs[breadcrumbs.length - 1];
+                            duck.target = breadcrumb;
+                            }
+                        }
+                    }
+                }
+            }
+
+
 
         
     

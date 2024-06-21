@@ -9,13 +9,11 @@ var lake;
             this.x = _x;
             this.y = _y;
             this.color = _color;
-            this.draw();
-            this.move();
         }
         move() {
             this.x -= 1;
-            if (this.x > lake.crc2.canvas.width) {
-                this.x = -100;
+            if (this.x < 0) {
+                this.x = lake.crc2.canvas.width;
             }
         }
         draw() { }

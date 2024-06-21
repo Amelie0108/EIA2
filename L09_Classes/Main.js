@@ -3,6 +3,7 @@ var lake;
 (function (lake) {
     window.addEventListener("load", handleLoad);
     let moveables = [];
+    let breadcrumbs = [];
     function handleLoad(_event) {
         let canvas = document.querySelector("canvas");
         if (!canvas)
@@ -13,16 +14,12 @@ var lake;
             moveables.push(cloud);
         }
         let duck = new lake.Duck(280, 430, "white");
-        duck.draw();
         moveables.push(duck);
         let duck2 = new lake.Duck(350, 550, "#A78B71");
-        duck.draw();
         moveables.push(duck2);
         let bee = new lake.Bee(350, 500, "yellow");
-        bee.draw();
         moveables.push(bee);
         let bee2 = new lake.Bee(100, 300, "yellow");
-        bee.draw();
         moveables.push(bee2);
         drawBackground();
         setInterval(animate, 40);
@@ -41,6 +38,8 @@ var lake;
             moveables[i].move();
             moveables[i].draw();
         }
+        drawBreadcrumbs();
+        moveDucksToBreadcrumbs();
     }
     function drawBackground() {
         let gradient = lake.crc2.createLinearGradient(0, 0, 0, lake.crc2.canvas.height);
@@ -164,6 +163,8 @@ var lake;
         let canvasRect = lake.crc2.canvas.getBoundingClientRect();
         let x = event.clientX - canvasRect.left;
         let y = event.clientY - canvasRect.top;
+        let clickedOnDuck = false;
+        let clickedOnHouse = false;
         for (let moveable of moveables) {
             if (moveable instanceof lake.House) {
                 if (x >= moveable.positionX &&
@@ -171,22 +172,24 @@ var lake;
                     y >= moveable.positionY &&
                     y <= moveable.positionY + moveable.height) {
                     moveable.color = moveable.color === "#217074" ? "#EDC5AB" : "#217074";
-                    drawBackground();
-                    for (let m of moveables) {
-                        m.draw();
-                    }
+                    clickedOnHouse = true;
                 }
             }
             else if (moveable instanceof lake.Duck) {
                 if (x >= moveable.x - 15 && x <= moveable.x + 15 && y >= moveable.y - 30 && y <= moveable.y + 30) {
                     moveable.x = Math.random() * (lake.crc2.canvas.width - 60) + 30;
                     moveable.y = 400 + Math.random() * 100;
-                    drawBackground();
-                    for (let m of moveables) {
-                        m.draw();
-                    }
+                    clickedOnDuck = true;
                 }
             }
+        }
+        if (!clickedOnDuck && !clickedOnHouse) {
+            breadcrumbs.push({ x, y });
+        }
+        drawBackground();
+        drawBreadcrumbs();
+        for (let m of moveables) {
+            m.draw();
         }
     }
     function handleKeyDown(event) {
@@ -195,6 +198,26 @@ var lake;
             drawBackground();
             for (let m of moveables) {
                 m.draw();
+            }
+        }
+    }
+    function drawBreadcrumbs() {
+        for (let breadcrumb of breadcrumbs) {
+            lake.crc2.save();
+            lake.crc2.fillStyle = "#DCC1A3";
+            lake.crc2.beginPath();
+            lake.crc2.arc(breadcrumb.x, breadcrumb.y, 5, 0, 2 * Math.PI);
+            lake.crc2.fill();
+            lake.crc2.restore();
+        }
+    }
+    function moveDucksToBreadcrumbs() {
+        for (let duck of moveables) {
+            if (duck instanceof lake.Duck) {
+                if (breadcrumbs.length > 0) {
+                    let breadcrumb = breadcrumbs[breadcrumbs.length - 1];
+                    duck.target = breadcrumb;
+                }
             }
         }
     }

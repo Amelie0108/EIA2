@@ -10,14 +10,12 @@ namespace lake {
             this.y = _y;
             this.color = _color;
 
-            this.draw();
-            this.move();
         }
         
-        public move(){
-            this.x -= 1
-            if (this.x > crc2.canvas.width) {
-                this.x = -100;
+        public move(): void {
+            this.x -= 1;
+            if (this.x < 0) {
+                this.x = crc2.canvas.width;
             }
         }
 
